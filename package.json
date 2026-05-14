@@ -1,6 +1,6 @@
 {
   "name": "jrep1",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "A new generation grep that uses Javascript",
   "main": "src/jrep.js",
   "bin": {
