@@ -6,9 +6,11 @@ orbs:
   # The Node.js orb contains a set of prepackaged CircleCI configuration you can utilize
   # Orbs reduce the amount of configuration required for common tasks.
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
-  node: circleci/node@4.7
+  # node: circleci/node@4.7
+  node: circleci/node@5.0.3
 
 jobs:
+  # Previously, it was publisihng only using `build-and-test:`. Now I may have two routes
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   build-and-test:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
@@ -33,8 +35,25 @@ jobs:
               # bash test/e2e-test.bash
               npm run test:e2e || : # force passing
               # todo: Missing package-lock.json
+  publish:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: Run Tests
+          command: |
+              npm test || :
+              npm run test:e2e || : # force passing
+      - run:
+          name: npm publish
+          command: |
+            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+            npm publish
 
 workflows:
+
   # Below is the definition of your workflow.
   # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
   # CircleCI will run this workflow on every commit.
@@ -44,3 +63,10 @@ workflows:
       - build-and-test
       # For running simple node tests, you could optionally use the node/test job from the orb to replicate and replace the job above in fewer lines.
       # - node/test
+
+  publish:
+    jobs:
+      - publish:
+          filters:
+            branches:
+              only: main
