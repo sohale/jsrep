@@ -4,12 +4,23 @@
 [![Downloads/week](https://img.shields.io/npm/dw/jrep.svg)](https://www.npmjs.com/package/jrep1)
 [![License](https://img.shields.io/npm/l/jrep1.svg)](https://github.com/sohale/jrep/blob/main/package.json)
 
-A new generation `grep` written in node/javascript.
-
-Think of `awk` & `sed` with javascript syntax.
+A new generation `grep` written in node/javascript. Post-processing for various commands, in Node/Javascript's RegExp `/.../`.
+Think of `awk` & `sed` with javascript syntax. 
 
 Very useful for bash scripting and devops works.
 Very handy and extermly flexible.
+
+Handy examples I regularly ue:
+```bash
+# Generate a `date -r ` command for each modified file in your `git status`:
+git status | npx jrep1 '"date -r " + /modified: +(.*)/.exec(x)[1]'
+
+# sort dates of most recently changed files (recursively)
+ls -Ralth  FOLDER1 FOLDER2  | npx jrep1 '/(Dec *\d+ [0-9\:]+.*)/.exec(x)[1]' |grep -w rs | sort |uniq
+
+# sort dates of most recent changed files
+ls -Ralth MYFOLDER1/ MYFOLDER2/ MYFILE3   | npx jrep1 '/((?:Feb|Jan) *(\d+) [0-9\:]+.*)/.exec(x).map(x=>x+"").reverse().join("")'
+```
 
 <!-- 🧤 🧰 ☘️ -->
 ## 🧤 Usage
