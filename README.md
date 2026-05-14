@@ -4,7 +4,8 @@
 [![Downloads/week](https://img.shields.io/npm/dw/jrep.svg)](https://www.npmjs.com/package/jrep1)
 [![License](https://img.shields.io/npm/l/jrep1.svg)](https://github.com/sohale/jrep/blob/main/package.json)
 
-A new generation `grep` written in node/javascript. Post-processing for various commands, in Node/Javascript's RegExp `/.../`.
+A new generation `grep` written in node/javascript.
+Pragmatic post-processing for various commands, in Node/Javascript's RegExp `/.../`.
 Think of `awk` & `sed` with javascript syntax. 
 
 * Very useful for bash scripting and devops works.
