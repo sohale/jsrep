@@ -126,6 +126,30 @@ ps aux | grep -e python
 find .. |  npx jrep1  'RER("(.*)python(.*)", "p[1]+\"🐍🐍\"+p[2]")'
 ```
 
+Here is how I actually get the last change time of my git repos:
+```bash
+git status | grep "new file:" | npx jrep1 '((y)=>("echo -n \" "+y+"  : \" && date -r "+y))( /new file: +(.*)/.exec(x)[1])'   | bash
+```
+```.
+.gitignore  : Mon 11 May 2026 18:53:45 BST
+app/main.js  : Tue 12 May 2026 00:39:22 BST
+app/package.json  : Mon 11 May 2026 19:46:51 BST
+...
+```
+which is equivalent to:
+```js
+# var x: string = current input line
+return (
+   (y)=>(
+      "echo -n \" "+y+"  : \" && date -r "+y
+       )
+)(
+    /new file: +(.*)/    // a RegExp
+    .exec(x)[1]
+)
+```
+
+
 ### 🐻 Find jrep on npm: [jrep1](https://www.npmjs.com/package/jrep1)
 
 ### 💡 Some suggested use cases
